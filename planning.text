@@ -1,0 +1,14 @@
+ create search bar with button
+ when button clicked, use search criteria to get weather from API
+
+ main container appears in center of screen
+ displays city name and todays date along with icon showing weather, data on temp, humidity, windspeed, and UV index
+
+ 5 card appear below main content showing 5 day forecast.
+
+ search is saved and shown in container below search bar
+
+ can be triggered on form submit(user search) as well as button click
+ build function that retrieves weather that takes in the (city)
+
+ the history should be locally stored in as a JSON array
