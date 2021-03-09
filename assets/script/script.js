@@ -28,8 +28,8 @@ var formSubmitHandler = function (event) {
   $form.value = "" 
   getWeather(search)
   
-  var weather =+ weather;
-  console.log(weather)
+ 
+ 
   return userSearch
 };
 
@@ -41,13 +41,15 @@ function getWeather (city) {
   fetch(currentWeatherUrl)
     .then((data) => data.json())
     .then(function (weather) {
-      console.log(weather.name);
-      
+
+     
+      var weatherName = weather.name;
+      console.log(weatherName)
       if (weather.cod === "404"){
         alert ("put in city name")
           return;
       }
-
+      createSearchCard(weatherName);
       //  else run function to create search cards and main weather card
       var lat = weather.coord.lat;
       var lon = weather.coord.lon;
@@ -58,13 +60,20 @@ function getWeather (city) {
         .then(function (oneCallData) {
             
         });
-        console.log(weather)
+        console.log(weatherName)
         
         
     });
+};
+
+
+function createSearchCard (cityName){
+  var city = cityName;
+  console.log(typeof city)
+  $("<p>").text(city).appendTo($searchCardsContainer);
+  // $searchCardsContainer.append($card);
 }
-
-
+// stringified set array only allows unique items
 
 // Async Await 
 // works with promises(.then is a promise)
