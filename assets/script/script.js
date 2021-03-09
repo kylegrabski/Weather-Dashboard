@@ -2,14 +2,42 @@ var api_key = "6a2eb678a90275c6b6a6400f5f55c19b";
 
 var baseurl = `http://api.openweathermap.org/data/2.5/forecast?id=524901&appid=${api_key}`;
 
+var $btn = document.querySelector(".btn");
+var $form = document.querySelector(".form-input");
+
+var userSearch = [];
 
 var lat;
 var lon;
-var part;
+
 // uv index but only takes in latitude and longitude
 var onecallUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${api_key}`;
 
-console.log(baseurl);
+
+// search btn click
+$btn.addEventListener("click", function(e){
+  e.preventDefault();
+ 
+  var search = $form.value
+  userSearch.push(search);
+  localStorage.setItem("Search", JSON.stringify(userSearch)); 
+
+  $form.value = "" 
+  return userSearch;
+});
+console.log(userSearch)
+
+
+userSearch = localStorage.getItem("Search");
+JSON.parse(userSearch);
+console.log(userSearch)
+
+
+
+// function renderSearch (data){
+// console.log(test)
+// }
+
 
 
 
@@ -37,10 +65,10 @@ console.log(part)
 var forecastUrl =
   "http://api.openweathermap.org/data/2.5/forecast?q=Phoenix&appid=a3db2f5a7756948aa37463f113a69ca0";
 
-console.log("forecast url", forecastUrl);
+// console.log("forecast url", forecastUrl);
 
-getWeather("Temecula");
-getWeather("Gilbert");
+// getWeather("Temecula");
+// getWeather("Gilbert");
 
 
 
