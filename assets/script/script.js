@@ -14,27 +14,24 @@ var lon;
 // uv index but only takes in latitude and longitude
 var onecallUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${api_key}`;
 
+// on page reload, clear local storage
+localStorage.clear();
 
 var formSubmitHandler = function (event) {
   event.preventDefault();
   
-  getWeather($form.value);
+  // getWeather($form.value);
   var search = $form.value
   userSearch.push(search);
-  localStorage.setItem("Search History", JSON.stringify(userSearch)); 
+  localStorage.setItem("Search History",(userSearch)); 
   
   $form.value = "" 
+  getWeather(search)
   
-  if (citySearch) {
-    getWeather(search)
-  }else
-  alert("Please Enter a City Name")
-  console.log(search)
+  var weather =+ weather;
+  console.log(weather)
   return userSearch
 };
-
-
-
 
 
 // var city = //user input;
@@ -46,8 +43,12 @@ function getWeather (city) {
     .then(function (weather) {
       console.log(weather.name);
       
-    
-       
+      if (weather.cod === "404"){
+        alert ("put in city name")
+          return;
+      }
+
+      //  else run function to create search cards and main weather card
       var lat = weather.coord.lat;
       var lon = weather.coord.lon;
       
@@ -57,12 +58,17 @@ function getWeather (city) {
         .then(function (oneCallData) {
             
         });
+        console.log(weather)
+        
         
     });
 }
 
 
 
+// Async Await 
+// works with promises(.then is a promise)
+// type in async before the function. 
 
 var forecastUrl =
   "http://api.openweathermap.org/data/2.5/forecast?q=Phoenix&appid=a3db2f5a7756948aa37463f113a69ca0";
