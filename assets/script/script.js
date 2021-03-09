@@ -4,8 +4,9 @@ var baseurl = `http://api.openweathermap.org/data/2.5/forecast?id=524901&appid=$
 
 var $btn = document.querySelector(".btn");
 var $form = document.querySelector(".form-input");
+var $searchCardsContainer = document.getElementById("search-cards-container");
 
-// var userSearch = [];
+var userSearch = [];
 
 var lat;
 var lon;
@@ -16,29 +17,37 @@ var onecallUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon
 
 var formSubmitHandler = function (event) {
   event.preventDefault();
-  var citySearch = $form.value
-
+  
+  getWeather($form.value);
+  var search = $form.value
+  userSearch.push(search);
+  localStorage.setItem("Search History", JSON.stringify(userSearch)); 
+  
+  $form.value = "" 
+  
   if (citySearch) {
-    getWeather(citySearch)
+    getWeather(search)
   }else
   alert("Please Enter a City Name")
-console.log(citySearch)
+  console.log(search)
+  return userSearch
 };
 
 
 
 
 
-
 // var city = //user input;
-var getWeather = function (city) {
+function getWeather (city) {
   var currentWeatherUrl = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${api_key}`;
 
   fetch(currentWeatherUrl)
     .then((data) => data.json())
     .then(function (weather) {
-      console.log(weather);
+      console.log(weather.name);
       
+    
+       
       var lat = weather.coord.lat;
       var lon = weather.coord.lon;
       
@@ -46,10 +55,14 @@ var getWeather = function (city) {
       fetch(onecallUrl)
         .then((data) => data.json())
         .then(function (oneCallData) {
-            // console.log(oneCallData);
+            
         });
+        
     });
 }
+
+
+
 
 var forecastUrl =
   "http://api.openweathermap.org/data/2.5/forecast?q=Phoenix&appid=a3db2f5a7756948aa37463f113a69ca0";
