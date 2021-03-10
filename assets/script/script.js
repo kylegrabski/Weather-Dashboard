@@ -73,8 +73,6 @@ function getWeather(city) {
 };
 
 function createSearchCard(cityName) {
-  // stringified set array only allows unique items
-  // var city = cityName;
   $("<div>").addClass("cards").text(cityName).appendTo($searchCardsContainer);
   // $searchCardsContainer.append($card);
 };
@@ -92,18 +90,22 @@ var cityName = weather.name;
   $img.setAttribute("src", iconSource);
 
 //   Temperature
-  var temp = weather.main.temp;
-  console.log(temp)
-//   // Humidity
-// var humidity;
+// Convert KELVIN ----> Farenheit
+  var tempKelvin = weather.main.temp;
+  var tempF = Math.floor(1.8 * ((tempKelvin) - 273) + 32) + " Degrees ";
+
+  //   // Humidity
+  var humidity = "Humidity: " + weather.main.humidity;
 //   // Wind speed
 // var windspeed;
 //   // UV index (NEED ONE CALL API) HAVE ONE CALL IN THIS FUNCTION
 // var uvIndex;
   $("<div>").addClass("current-weather").text(cityName).appendTo($currentWeatherContainer);
   var $currentWeather = document.querySelector(".current-weather");
-  $currentWeather.append($img);
-  console.log($currentWeather)
+
+  
+
+  $currentWeather.append($img, tempF, humidity);
 };
 
 // Async Await
