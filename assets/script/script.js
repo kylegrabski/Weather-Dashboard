@@ -6,7 +6,10 @@ var api_key = "6a2eb678a90275c6b6a6400f5f55c19b";
 var baseurl = `http://api.openweathermap.org/data/2.5/forecast?id=524901&appid=${api_key}`;
 
 // uv index but only takes in latitude and longitude
-var onecallUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${api_key}`;
+var onecallUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${api_key}`
+
+var forecastUrl =
+  "http://api.openweathermap.org/data/2.5/forecast?q=Phoenix&appid=a3db2f5a7756948aa37463f113a69ca0";
 
 // --------------------HTML ELEMENTS-----------------------------
 var $btn = document.querySelector(".btn");
@@ -70,7 +73,12 @@ function createSearchCard(cityName) {
   // $searchCardsContainer.append($card);
 }
 
+
+// ------------------CREATE CURRENT WEATHER CONTAINER------------------
 function createCurrentWeather(weather) {
+  // CLEAR FUNCTION
+  // clearCurrentWeather($currentWeather);
+
   // City Name
   var cityName = weather.name;
   $("<div>")
@@ -111,65 +119,22 @@ function createCurrentWeather(weather) {
     .then((data) => data.json())
     .then(function (oneCallData) {
       var $uvIndex = " UV Index: " + oneCallData.current.uvi;
-      $currentWeather.append($uvIndex);
-    });
 
-  $currentWeather.append($img, tempF, humidity, windspeed);
-}
+      $currentWeather.append($img, tempF, humidity, windspeed, $uvIndex);
+    });
+};
+
+
+// ---------------------------CLEAR CURRENT WEATHER CONTAINER---------
+function clearCurrentWeather(container){
+  for (let i = 0; i < container.length; i++) {
+    container[i].parentNode.removeChild(container[i]);
+    
+  };
+};
 
 // Async Await
 // works with promises(.then is a promise)
 // type in async before the function.
 
-var forecastUrl =
-  "http://api.openweathermap.org/data/2.5/forecast?q=Phoenix&appid=a3db2f5a7756948aa37463f113a69ca0";
-
 $btn.addEventListener("click", formSubmitHandler);
-
-// console.log("forecast url", forecastUrl);
-
-// getWeather("Temecula");
-// getWeather("Gilbert");
-
-// function(data) {
-//   let data = data.json()
-//   } (edited)
-
-//   https://openweathermap.org/img/wn/${iconID}@2x.png
-
-//   var getIcon = function (iconID) {
-//      var iconUrl = `https://openweathermap.org/img/wn/${iconID}@2x.png`;
-//      var iconEl = $("<img>").attr("alt", "Weather icon").attr("src", iconUrl);
-//      return iconEl;
-//   }; (edited)
-
-//   getIcon(weather.weather[0].id);
-
-//   let iconID = weather.weather[0].id
-
-//   getIcon(IconID);
-
-// old code
-// search btn click
-// $btn.addEventListener("click", function(e){
-//   e.preventDefault();
-
-//   getWeather($form.value);
-//   var search = $form.value
-//   userSearch.push(search);
-//   localStorage.setItem("Search", JSON.stringify(userSearch));
-
-//   $form.value = ""
-
-//   return userSearch;
-// });
-// console.log(userSearch)
-
-// userSearch = localStorage.getItem("Search");
-// JSON.parse(userSearch);
-// console.log(userSearch)
-// console.log(userSearch.length)
-
-// function renderSearch (data){
-// console.log(test)
-// }
