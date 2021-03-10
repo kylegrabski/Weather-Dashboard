@@ -69,15 +69,17 @@ function getWeather(city) {
 }
 
 function createSearchCard(cityName) {
+  $searchCardsContainer.innerHTML = "";
   $("<div>").addClass("cards").text(cityName).appendTo($searchCardsContainer);
-  // $searchCardsContainer.append($card);
+
 }
 
 
 // ------------------CREATE CURRENT WEATHER CONTAINER------------------
 function createCurrentWeather(weather) {
-  // CLEAR FUNCTION
-  // clearCurrentWeather($currentWeather);
+  // clear container
+  // clearCurrentWeather();
+ $currentWeatherContainer.innerHTML = "";
 
   // City Name
   var cityName = weather.name;
@@ -107,8 +109,6 @@ function createCurrentWeather(weather) {
   //   // Wind speed
   var windspeed = " Windspeed: " + Math.floor(weather.wind.speed) + " MPH ";
 
-  //   // UV index (NEED ONE CALL API) HAVE ONE CALL IN THIS FUNCTION
-
   // var uvIndex;
   // oneCallData.current.uvi
   var lat = weather.coord.lat;
@@ -120,21 +120,14 @@ function createCurrentWeather(weather) {
     .then(function (oneCallData) {
       var $uvIndex = " UV Index: " + oneCallData.current.uvi;
 
-      $currentWeather.append($img, tempF, humidity, windspeed, $uvIndex);
+      return $currentWeather.append($img, tempF, humidity, windspeed, $uvIndex);
     });
-};
-
-
-// ---------------------------CLEAR CURRENT WEATHER CONTAINER---------
-function clearCurrentWeather(container){
-  for (let i = 0; i < container.length; i++) {
-    container[i].parentNode.removeChild(container[i]);
     
-  };
 };
+
+
+$btn.addEventListener("click", formSubmitHandler);
 
 // Async Await
 // works with promises(.then is a promise)
 // type in async before the function.
-
-$btn.addEventListener("click", formSubmitHandler);
