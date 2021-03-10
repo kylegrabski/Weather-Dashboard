@@ -24,8 +24,6 @@ var lon;
 // on page reload, clear local storage
 localStorage.clear();
 
-
-
 // var so we can put it in the event listener parameter at the bottom
 var formSubmitHandler = function (event) {
   event.preventDefault();
@@ -41,8 +39,6 @@ var formSubmitHandler = function (event) {
   return userSearch;
 };
 
-
-
 // --------------------------FUNCTIONS-----------------------------
 
 function getWeather(city) {
@@ -51,7 +47,6 @@ function getWeather(city) {
   fetch(currentWeatherUrl)
     .then((data) => data.json())
     .then(function (weather) {
-   
       if (weather.cod === "404") {
         alert("No city with that name");
         return;
@@ -59,54 +54,68 @@ function getWeather(city) {
 
       createSearchCard(weather.name);
       createCurrentWeather(weather);
-      console.log(weather)
+
       var lat = weather.coord.lat;
       var lon = weather.coord.lon;
-      
+
       var onecallUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${api_key}`;
       fetch(onecallUrl)
         .then((data) => data.json())
-        .then(function (oneCallData) {
-          
-        });
+        .then(function (oneCallData) {});
     });
-};
+}
 
 function createSearchCard(cityName) {
   $("<div>").addClass("cards").text(cityName).appendTo($searchCardsContainer);
   // $searchCardsContainer.append($card);
-};
+}
 
-
-function createCurrentWeather(weather){
+function createCurrentWeather(weather) {
   // City Name
-var cityName = weather.name;
+  var cityName = weather.name;
+  $("<div>")
+    .addClass("current-weather")
+    .text(cityName)
+    .appendTo($currentWeatherContainer);
+  var $currentWeather = document.querySelector(".current-weather");
+
   // Current Date USE MOMENT.JS!!!!
-// var currentDate;
+  // var currentDate;
+
   // Icon representing Weather Conditions
   var icon = weather.weather[0].icon;
   var iconSource = `https://openweathermap.org/img/wn/${icon}@2x.png`;
   var $img = document.createElement("img");
   $img.setAttribute("src", iconSource);
 
-//   Temperature
-// Convert KELVIN ----> Farenheit
+  //   Temperature
+  // Convert KELVIN ----> Farenheit
   var tempKelvin = weather.main.temp;
-  var tempF = Math.floor(1.8 * ((tempKelvin) - 273) + 32) + " Degrees ";
+  var tempF = Math.floor(1.8 * (tempKelvin - 273) + 32) + " Degrees ";
 
   //   // Humidity
-  var humidity = "Humidity: " + weather.main.humidity;
-//   // Wind speed
-// var windspeed;
-//   // UV index (NEED ONE CALL API) HAVE ONE CALL IN THIS FUNCTION
-// var uvIndex;
-  $("<div>").addClass("current-weather").text(cityName).appendTo($currentWeatherContainer);
-  var $currentWeather = document.querySelector(".current-weather");
+  var humidity = " Humidity: " + weather.main.humidity;
 
-  
+  //   // Wind speed
+  var windspeed = " Windspeed: " + Math.floor(weather.wind.speed) + " MPH ";
 
-  $currentWeather.append($img, tempF, humidity);
-};
+  //   // UV index (NEED ONE CALL API) HAVE ONE CALL IN THIS FUNCTION
+
+  // var uvIndex;
+  // oneCallData.current.uvi
+  var lat = weather.coord.lat;
+  var lon = weather.coord.lon;
+
+  var onecallUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${api_key}`;
+  fetch(onecallUrl)
+    .then((data) => data.json())
+    .then(function (oneCallData) {
+      var $uvIndex = " UV Index: " + oneCallData.current.uvi;
+      $currentWeather.append($uvIndex);
+    });
+
+  $currentWeather.append($img, tempF, humidity, windspeed);
+}
 
 // Async Await
 // works with promises(.then is a promise)
@@ -116,8 +125,6 @@ var forecastUrl =
   "http://api.openweathermap.org/data/2.5/forecast?q=Phoenix&appid=a3db2f5a7756948aa37463f113a69ca0";
 
 $btn.addEventListener("click", formSubmitHandler);
-
-
 
 // console.log("forecast url", forecastUrl);
 
