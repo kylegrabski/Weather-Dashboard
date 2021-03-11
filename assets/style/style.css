@@ -18,3 +18,16 @@
     margin: 5px 0px 0px 5px;
     text-align: center;
 }
+
+.favorable {
+    background-color: lightgreen;
+};
+
+
+.moderate {
+    background-color: orange;
+};
+
+.severe {
+    background-color: red;
+}
