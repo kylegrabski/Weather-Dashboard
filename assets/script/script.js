@@ -52,7 +52,7 @@ var formSubmitHandler = function (event) {
 
 // ---------------GET WEATHER DATA---------------------------------
 function getWeather(city) {
-  var currentWeatherUrl = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${api_key}`;
+  var currentWeatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${api_key}`;
 
   fetch(currentWeatherUrl)
     .then((data) => data.json())
