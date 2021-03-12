@@ -159,7 +159,6 @@ function createForecast(cityName) {
   $forecastCard5.innerHTML = "";
 
   var city = cityName.name;
-  console.log(city);
   var lon = cityName.coord.lon;
   var lat = cityName.coord.lat;
   var onecallUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${api_key}`;
@@ -168,7 +167,6 @@ function createForecast(cityName) {
     .then(function (onecallUrlData) {
       // get 5 day forecast showing
 
-      console.log(onecallUrlData);
 
       // Date Variables
       var tempArr = [];
@@ -276,9 +274,7 @@ $searchCardsContainer.addEventListener("click", function (e) {
   // checks for duplicates in search history
   hasDuplicates(localHistory);
   localHistory.push(localStorage.getItem("Search History"));
-  console.log(e.target.innerHTML);
   var search = e.target.innerHTML;
-  console.log(localHistory)
   getWeather(search);
 });
 var localHistory = [];
