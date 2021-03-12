@@ -11,9 +11,14 @@
     margin: 5px 0px 0px 5px;
 }
 
+.current-weather-container {
+    display: flex;
+    justify-content: center;
+}
+
 .current-weather {
     background-color: lightblue;
-    width: fit-content;
+    width: 500px;
     padding: 8px;
     margin: 5px 0px 0px 5px;
     text-align: center;
@@ -31,3 +36,11 @@
 .severe {
     background-color: red;
 }
+
+.color{
+    background-color:lightskyblue;
+    margin: 15px;
+    width: fit-content;
+    padding-right: 10px;
+}
+

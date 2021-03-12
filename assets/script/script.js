@@ -16,6 +16,11 @@ var $currentWeatherContainer = document.querySelector(
   "#current-weather-container"
 );
 var $forecastCardContainer = document.querySelector("#forecast-card-container");
+var $forecastCard1 = document.querySelector("#forecast-card1");
+var $forecastCard2 = document.querySelector("#forecast-card2");
+var $forecastCard3 = document.querySelector("#forecast-card3");
+var $forecastCard4 = document.querySelector("#forecast-card4");
+var $forecastCard5 = document.querySelector("#forecast-card5");
 
 // --------------------------------------------------------------
 var userSearch = [];
@@ -30,12 +35,13 @@ localStorage.clear();
 // --------------------------FUNCTIONS-----------------------------
 
 // -----------------SAVING SEARCH HISTORY-------------
+
 var formSubmitHandler = function (event) {
   event.preventDefault();
-
+  search = $form.value;
   // getWeather($form.value);
-  var search = $form.value;
   userSearch.push(search);
+
   localStorage.setItem("Search History", userSearch);
 
   $form.value = "";
@@ -71,8 +77,14 @@ function getWeather(city) {
 
 // ----------------CREATE SEARCH HISTORY CARD-----------------
 function createSearchCard(cityName) {
-  // $searchCardsContainer.innerHTML = "";
-  $("<div>").addClass("cards").text(cityName).appendTo($searchCardsContainer);
+  // if unique create card
+ 
+  $("<button>")
+    .addClass("cards")
+    .text(cityName)
+    .appendTo($searchCardsContainer);
+  // var $searchCards = document.querySelector(".cards");
+  // console.log($searchCards)
 }
 
 // ------------------CREATE CURRENT WEATHER CONTAINER-----------
@@ -87,12 +99,9 @@ function createCurrentWeather(weather) {
   var cityName = weather.name;
   $("<div>")
     .addClass("current-weather")
-    .text(cityName)
+    .text("Current Weather for " + cityName)
     .appendTo($currentWeatherContainer);
   var $currentWeather = document.querySelector(".current-weather");
-
-  // Current Date USE MOMENT.JS!!!!
-  // var currentDate;
 
   // Icon representing Weather Conditions
   var icon = weather.weather[0].icon;
@@ -140,10 +149,18 @@ function createCurrentWeather(weather) {
     });
 }
 
-// -------------------CREATE 5 DAY FORECAST -------------------
+// -----------CREATE 5 DAY FORECAST -----------
+// -----------TAKE FROM 5DAY API CALL----------
 function createForecast(cityName) {
-  var city = cityName.name;
+  // clears containers
+  $forecastCard1.innerHTML = "";
+  $forecastCard2.innerHTML = "";
+  $forecastCard3.innerHTML = "";
+  $forecastCard4.innerHTML = "";
+  $forecastCard5.innerHTML = "";
 
+  var city = cityName.name;
+  console.log(city);
   var lon = cityName.coord.lon;
   var lat = cityName.coord.lat;
   var onecallUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${api_key}`;
@@ -159,52 +176,116 @@ function createForecast(cityName) {
       var displayDateArr = [];
       var humidityArr = [];
       var iconArr = [];
+      var iconSourceArr = [];
 
       for (let i = 0; i <= 4; i++) {
         // Get Date Data
-        var newDisplay = Date(onecallUrlData.daily[i].dt);
-        displayDateArr.push(newDisplay);
+        var dateFormat = parseInt(onecallUrlData.daily[i].dt) * 1000;
+        var dateObject = new Date(dateFormat);
+        var humanDateFormat = dateObject.toLocaleDateString(
+          "en-US",
+          { weekday: "long" } + { day: "numeric" }
+        );
+
+        displayDateArr.push(humanDateFormat);
 
         // Get Temp Data
         // Convert Kelvin to Farenheit
         tempArr.push(
-          Math.floor(1.8 * (onecallUrlData.daily[i].temp.day - 273) + 32)
+          "TEMPERATURE: " +
+            Math.floor(1.8 * (onecallUrlData.daily[i].temp.day - 273) + 32) +
+            "°"
         );
 
         // Humidity Data
-        humidityArr.push(onecallUrlData.daily[i].humidity);
+        humidityArr.push("    HUMIDITY: " + onecallUrlData.daily[i].humidity);
 
         // Icon Data
-        // iconArr.push(onecallUrlData.daily[i].weather[i].icon);
-        // var iconSource = `https://openweathermap.org/img/wn/${icon}@2x.png`;
-        // var $img = document.createElement("img");
-        // $img.setAttribute("src", iconSource);
+        iconArr.push(onecallUrlData.daily[i].weather[0].icon);
+        iconSourceArr.push(
+          `https://openweathermap.org/img/wn/${iconArr[i]}@2x.png`
+        );
       }
-      console.log("Temperature" + tempArr);
-      console.log("Date" + displayDateArr);
-      console.log("Humidity" + humidityArr);
 
-      
-      
-      
-      // ***********Create Forecast Cards*************
-      for (let j = 0; j <= 4; j++) {
+      var $img1 = document.createElement("img");
+      $img1.setAttribute("src", iconSourceArr[0]);
 
-        $forecastCardContainer.append(document.createElement("div").classList.add(`forecast-card${j}`));   
-        // var forecast1 = document.querySelector(".forecast-card1`");
-        
+      var $img2 = document.createElement("img");
+      $img2.setAttribute("src", iconSourceArr[1]);
 
-      };
-      // Date.prototype.toDateString(displayDate)
+      var $img3 = document.createElement("img");
+      $img3.setAttribute("src", iconSourceArr[2]);
 
-      // var displayDate = date.toLocaleString('en-US',{month: 'numeric', day:'2-digit', year:'numeric'});
+      var $img4 = document.createElement("img");
+      $img4.setAttribute("src", iconSourceArr[3]);
 
-      // icon
+      var $img5 = document.createElement("img");
+      $img5.setAttribute("src", iconSourceArr[4]);
+
+      // Append 5 Day Data to HTML elements
+
+      $forecastCard1.append(
+        displayDateArr[0],
+        $img1,
+        tempArr[0],
+        humidityArr[0]
+      );
+
+      $forecastCard2.append(
+        displayDateArr[1],
+        $img2,
+        tempArr[1],
+        humidityArr[1]
+      );
+
+      $forecastCard3.append(
+        displayDateArr[2],
+        $img3,
+        tempArr[2],
+        humidityArr[2]
+      );
+
+      $forecastCard4.append(
+        displayDateArr[3],
+        $img4,
+        tempArr[3],
+        humidityArr[3]
+      );
+
+      $forecastCard5.append(
+        displayDateArr[4],
+        $img5,
+        tempArr[4],
+        humidityArr[4]
+      );
+
+      $forecastCard1.classList.add("color");
+      $forecastCard2.classList.add("color");
+      $forecastCard3.classList.add("color");
+      $forecastCard4.classList.add("color");
+      $forecastCard5.classList.add("color");
     });
 }
 
 $btn.addEventListener("click", formSubmitHandler);
 
-// Async Await
-// works with promises(.then is a promise)
-// type in async before the function.
+$searchCardsContainer.addEventListener("click", function (e) {
+  if (!e.target.matches("button")) {
+    return;
+  }
+  
+  // checks for duplicates in search history
+  hasDuplicates(localHistory);
+  localHistory.push(localStorage.getItem("Search History"));
+  console.log(e.target.innerHTML);
+  var search = e.target.innerHTML;
+  console.log(localHistory)
+  getWeather(search);
+});
+var localHistory = [];
+
+function hasDuplicates (array) {
+  return (new Set(array)).size !== array.length
+}
+
+
