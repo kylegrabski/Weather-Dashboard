@@ -1,46 +1,57 @@
 .btn {
-    background-color:lightblue;
+  background-color: lightblue;
 }
 
-
-/* bootstrap this later! */
 .cards {
-    background-color: red;
-    width: fit-content;
-    padding: 8px;
-    margin: 5px 0px 0px 5px;
+  background-color: red;
+  width: fit-content;
+  padding: 8px;
+  margin: 5px 0px 0px 5px;
 }
 
 .current-weather-container {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .current-weather {
-    background-color: lightblue;
-    width: 500px;
-    padding: 8px;
-    margin: 5px 0px 0px 5px;
-    text-align: center;
+  background-color: lightblue;
+  width: 500px;
+  padding: 8px;
+  margin: 5px 0px 0px 5px;
+  text-align: center;
 }
 
 .favorable {
-    background-color: lightgreen;
-};
-
+  background-color: lightgreen;
+}
 
 .moderate {
-    background-color: orange;
-};
+  background-color: orange;
+}
 
 .severe {
-    background-color: red;
+  background-color: red;
 }
 
-.color{
-    background-color:lightskyblue;
-    margin: 15px;
-    width: fit-content;
-    padding-right: 10px;
+.color {
+  background-color: lightskyblue;
+  margin: 15px;
+  width: fit-content;
+  padding-right: 10px;
 }
+
+#forecast-card-container {
+  display: flex;
+}
+
+#forecast-card1,
+#forecast-card2,
+#forecast-card3,
+#forecast-card4,
+#forecast-card5 {
+  padding: 10px;
+  border-radius: 5%;
+}
+
 

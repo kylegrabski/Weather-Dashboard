@@ -142,7 +142,6 @@ function createCurrentWeather(weather) {
 
       // NEED TO HAVE uvINDEX BE ITS OWN ELEMENT
       // $uvIndex.classList.add(uvBackground);
-      console.log(uvBackground);
 
       $currentWeather.append($img, tempF, humidity, windspeed, $uvIndex);
       createForecast(weatherData);
