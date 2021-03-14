@@ -112,7 +112,7 @@ function createCurrentWeather(weather) {
   //   Temperature
   // Convert KELVIN ----> Farenheit
   var tempKelvin = weather.main.temp;
-  var tempF = Math.floor(1.8 * (tempKelvin - 273) + 32) + " Degrees ";
+  var tempF = Math.floor(1.8 * (tempKelvin - 273) + 32) + " ° ";
 
   //   // Humidity
   var humidity = " Humidity: " + weather.main.humidity;
